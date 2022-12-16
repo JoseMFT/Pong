@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: ce399abd6d1d15e469f16726bbe25d74
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - JK Abode
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 6633aa268c062714b93485c42d1cce55, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
