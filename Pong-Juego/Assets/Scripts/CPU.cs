@@ -2,24 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement: MonoBehaviour {
+public class CPU : MonoBehaviour
+{
 
     [SerializeField]
-    KeyCode buttonUp;
+    GameObject bola;
 
-    [SerializeField]
-    KeyCode buttonDown;
-
-    public float speed = 6f, initialSpeed;
+    public float speed = 1.75f, initialSpeed;
 
     void Start () {
         initialSpeed = speed;
     }
-    // Update is called once per frame
-    void Update () {
-        if (Input.GetKey (buttonUp)) {
+
+    void Update()
+    {
+        if (transform.position.y < bola.transform.position.y - .55f) {
             transform.position += Vector3.up * speed * Time.deltaTime;
-        } else if (Input.GetKey (buttonDown)) {
+
+        } else if (transform.position.y > bola.transform.position.y + .55f) {
             transform.position += Vector3.down * speed * Time.deltaTime;
         }
 
@@ -29,13 +29,12 @@ public class Movement: MonoBehaviour {
             transform.position = new Vector3 (transform.position.x, -3.79f, transform.position.z);
         }
 
-        if (Marcador.instance.scored == true) { 
+        if (Marcador.instance.scored == true) {
             speed = initialSpeed;
-            Marcador.instance.scored = false;
         }
     }
 
     private void OnCollisionEnter2D (Collision2D collision) {
-        speed += (float) Mathf.Sqrt (speed) / (speed + 1);
-    }
+        speed += (float) Mathf.Sqrt (speed) / (speed + 1.5f);
+    }    
 }

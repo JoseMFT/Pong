@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class Marcador: MonoBehaviour {
     // Start is called before the first frame update
     int golesJugador1, golesJugador2;
+    public bool scored = false;
     public static Marcador instance;
 
     [SerializeField]
@@ -31,12 +32,14 @@ public class Marcador: MonoBehaviour {
     }
 
     public void GolP1 () {
+        scored = true;
         ++golesJugador1;
         puntuacion.text = golesJugador1.ToString () + " - " + golesJugador2.ToString ();
         //Bola.behavior.SentidoDer ();
     }
 
     public void GolP2 () {
+        scored = true;
         ++golesJugador2;
         puntuacion.text = golesJugador1.ToString () + " - " + golesJugador2.ToString ();
         //Bola.behavior.SentidoIzq ();

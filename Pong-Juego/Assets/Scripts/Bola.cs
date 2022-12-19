@@ -9,7 +9,7 @@ public class Bola: MonoBehaviour {
     int sentido = 1;
     public Vector3 direction;
     bool movement = true;
-    float speed = 2f, initialSpeed;
+    float speed = 3.25f, initialSpeed;
 
     [SerializeField]
     GameObject scoreAnimation;
@@ -18,7 +18,6 @@ public class Bola: MonoBehaviour {
     void Start () {
         initialSpeed = speed;
         ResetGoal ();
-
     }
 
     // Update is called once per frame
