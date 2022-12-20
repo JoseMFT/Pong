@@ -6,12 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class Marcador: MonoBehaviour {
     // Start is called before the first frame update
-    int golesJugador1, golesJugador2;
+    public int golesJugador1, golesJugador2;
     public bool scored = false;
     public static Marcador instance;
 
+    public int objetivoGoles = 1;
+
     [SerializeField]
-    TextMeshProUGUI puntuacion;
+    TextMeshProUGUI puntuacion, textoFinal;
 
     private void Awake () {
         if (Marcador.instance == null) {
@@ -22,13 +24,19 @@ public class Marcador: MonoBehaviour {
     }
     void Start () {
         golesJugador1 = golesJugador2 = 0;
+
     }
 
     // Update is called once per frame
     void Update () {
-        if (golesJugador1 >= 7 || golesJugador2 >= 7) {
-            SceneManager.LoadScene (0);
+        if (golesJugador1 >= objetivoGoles || golesJugador2 >= objetivoGoles) {
+            if (golesJugador1 > golesJugador2) {
+                textoFinal.text = "Player 1 wins";
+            } else if (golesJugador2 > golesJugador1) {
+                textoFinal.text = "Player 2 wins";
+            }
         }
+
     }
 
     public void GolP1 () {
@@ -43,9 +51,5 @@ public class Marcador: MonoBehaviour {
         ++golesJugador2;
         puntuacion.text = golesJugador1.ToString () + " - " + golesJugador2.ToString ();
         //Bola.behavior.SentidoIzq ();
-    }
-
-
+    } 
 }
-
-//resultadoJugadorDos.text = golesJugador2.ToString();

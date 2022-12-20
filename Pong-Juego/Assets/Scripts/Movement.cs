@@ -14,6 +14,7 @@ public class Movement: MonoBehaviour {
 
     void Start () {
         initialSpeed = speed;
+        Cursor.visible = false;
     }
     // Update is called once per frame
     void Update () {
@@ -36,6 +37,8 @@ public class Movement: MonoBehaviour {
     }
 
     private void OnCollisionEnter2D (Collision2D collision) {
-        speed += (float) Mathf.Sqrt (speed) / (speed + 1);
+        if (speed < 8f) {
+            speed += (float) Mathf.Sqrt (speed) / (speed + 1);
+        }
     }
 }

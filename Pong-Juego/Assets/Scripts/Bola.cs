@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Bola: MonoBehaviour {
 
@@ -12,7 +13,7 @@ public class Bola: MonoBehaviour {
     float speed = 3.25f, initialSpeed;
 
     [SerializeField]
-    GameObject scoreAnimation;
+    GameObject scoreAnimation, canvasFinal, cajaTexto, prefabChoque;
 
     // Start is called before the first frame update
     void Start () {
@@ -32,12 +33,16 @@ public class Bola: MonoBehaviour {
         Debug.Log ("Ha chocado con: " + collision.collider.gameObject.name);
 
         if (collision.gameObject.tag == "Player") {
-            speed += (float) Mathf.Sqrt (speed) / speed;
+            if (speed < 6f) {
+                Instantiate (prefabChoque, transform.position, Quaternion.identity);
+                speed += (float) Mathf.Pow (speed, 1f / 3f);
+            }
             direction.x = -1f * direction.x;
             direction.y = Random.Range (-1f, 1f);
         }
 
         if (collision.gameObject.tag == "Borders") {
+            Instantiate (prefabChoque, transform.position, Quaternion.identity);
             direction.y = -1f * direction.y;
         }
     }
@@ -65,11 +70,22 @@ public class Bola: MonoBehaviour {
         LeanTween.moveLocalY (scoreAnimation, 0f, .75f).setEaseOutCubic ();
         LeanTween.scale (scoreAnimation, Vector3.one * 3f, 1.5f).setEaseOutCubic ().setOnComplete (() => {
             LeanTween.scale (scoreAnimation, Vector3.one, .5f).setEaseInCubic ();
-            LeanTween.alpha (scoreAnimation, 0f, .35f).setEaseOutCubic ().setOnComplete (() => {
-                ResetGoal ();
-                gameObject.GetComponent<SpriteRenderer> ().enabled = true;
-                movement = true;
-            });
+
+            if (Marcador.instance.golesJugador1 == Marcador.instance.objetivoGoles || Marcador.instance.golesJugador2 == Marcador.instance.objetivoGoles) {
+                canvasFinal.SetActive (true);
+                LeanTween.alpha (canvasFinal, 1f, .75f).setOnComplete (() => {
+                    LeanTween.alpha (cajaTexto, 1f, 4f).setEaseOutCubic ().setOnComplete (() => {
+                        Cursor.visible = true;
+                        SceneManager.LoadScene (0);
+                    });
+                });
+            } else {
+                LeanTween.alpha (scoreAnimation, 0f, .35f).setEaseOutCubic ().setOnComplete (() => {
+                    ResetGoal ();
+                    gameObject.GetComponent<SpriteRenderer> ().enabled = true;
+                    movement = true;
+                });
+            }
         });
     }
 

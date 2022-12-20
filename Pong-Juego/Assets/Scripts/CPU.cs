@@ -35,6 +35,9 @@ public class CPU : MonoBehaviour
     }
 
     private void OnCollisionEnter2D (Collision2D collision) {
-        speed += (float) Mathf.Sqrt (speed) / (speed + 1.5f);
+        
+        if (speed < 3.75f) {
+            speed += (float) Mathf.Sqrt (speed) / (speed + 1);
+        }
     }    
 }
