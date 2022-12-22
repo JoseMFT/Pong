@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Bola: MonoBehaviour {
 
@@ -10,10 +11,16 @@ public class Bola: MonoBehaviour {
     int sentido = 1;
     public Vector3 direction;
     bool movement = true;
+    public bool limitSpeed = true;
     float speed = 3.25f, initialSpeed;
+    public float contador = 5f;
 
     [SerializeField]
     GameObject scoreAnimation, canvasFinal, cajaTexto, prefabChoque;
+
+    public static Bola controlador;
+
+
 
     // Start is called before the first frame update
     void Start () {
@@ -33,9 +40,11 @@ public class Bola: MonoBehaviour {
         Debug.Log ("Ha chocado con: " + collision.collider.gameObject.name);
 
         if (collision.gameObject.tag == "Player") {
-            if (speed < 6f) {
-                Instantiate (prefabChoque, transform.position, Quaternion.identity);
-                speed += (float) Mathf.Pow (speed, 1f / 3f);
+            if (limitSpeed == true) {
+                if (speed < 6f) {
+                    Instantiate (prefabChoque, transform.position, Quaternion.identity);
+                    speed += (float) Mathf.Pow (speed, 1f / 3f);
+                }
             }
             direction.x = -1f * direction.x;
             direction.y = Random.Range (-1f, 1f);
@@ -59,9 +68,22 @@ public class Bola: MonoBehaviour {
             sentido = 1;
             Scored ();
         }
+
+        if (collision.gameObject.tag == "Speed") {
+            limitSpeed = false;
+            collision.GetComponent<MeshRenderer> ().enabled = false;
+            speed = 10f;
+            while (contador >= 0f) {
+                contador -= Time.deltaTime;
+            }
+            if (contador < 0f) {
+                limitSpeed = true;
+            }
+        }
     }
 
     public void Scored () {
+        PowerUps.manager.hide = true;
         transform.Translate (Vector3.zero, Space.World);
         movement = false;
         gameObject.GetComponent<SpriteRenderer> ().enabled = false;
@@ -97,6 +119,7 @@ public class Bola: MonoBehaviour {
         LeanTween.moveLocalY (scoreAnimation, -50f, .01f);
         LeanTween.rotate (scoreAnimation, Vector3.zero, .01f);
         scoreAnimation.SetActive (false);
+        PowerUps.manager.hide = false;
     }
 
     public void SentidoIzq () {

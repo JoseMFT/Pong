@@ -9,11 +9,15 @@ public class Marcador: MonoBehaviour {
     public int golesJugador1, golesJugador2;
     public bool scored = false;
     public static Marcador instance;
+    Vector3 ogSizeScore;
 
     public int objetivoGoles = 1;
 
     [SerializeField]
     TextMeshProUGUI puntuacion, textoFinal;
+
+    [SerializeField]
+    GameObject cuadroPuntuacion;
 
     private void Awake () {
         if (Marcador.instance == null) {
@@ -24,6 +28,7 @@ public class Marcador: MonoBehaviour {
     }
     void Start () {
         golesJugador1 = golesJugador2 = 0;
+        ogSizeScore = cuadroPuntuacion.transform.localScale;
 
     }
 
@@ -41,15 +46,21 @@ public class Marcador: MonoBehaviour {
 
     public void GolP1 () {
         scored = true;
+        LeanTween.scale (cuadroPuntuacion, Vector3.zero, .25f).setOnComplete (() => {
+            LeanTween.scale (cuadroPuntuacion, ogSizeScore, 1f).setEaseOutBack ();
+            puntuacion.text = golesJugador1.ToString () + " - " + golesJugador2.ToString ();
+        });
         ++golesJugador1;
-        puntuacion.text = golesJugador1.ToString () + " - " + golesJugador2.ToString ();
         //Bola.behavior.SentidoDer ();
     }
 
     public void GolP2 () {
         scored = true;
         ++golesJugador2;
-        puntuacion.text = golesJugador1.ToString () + " - " + golesJugador2.ToString ();
+        LeanTween.scale (cuadroPuntuacion, Vector3.zero, .25f).setOnComplete (() => {
+            LeanTween.scale (cuadroPuntuacion, ogSizeScore, 1f).setEaseOutBack ();
+            puntuacion.text = golesJugador1.ToString () + " - " + golesJugador2.ToString ();
+        });
         //Bola.behavior.SentidoIzq ();
-    } 
+    }
 }

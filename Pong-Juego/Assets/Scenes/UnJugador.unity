@@ -754,6 +754,7 @@ MonoBehaviour:
   objetivoGoles: 1
   puntuacion: {fileID: 1097968658}
   textoFinal: {fileID: 1471713028}
+  cuadroPuntuacion: {fileID: 1097968656}
 --- !u!1 &658390223
 GameObject:
   m_ObjectHideFlags: 0

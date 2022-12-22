@@ -30,7 +30,7 @@ public class Movement: MonoBehaviour {
             transform.position = new Vector3 (transform.position.x, -3.79f, transform.position.z);
         }
 
-        if (Marcador.instance.scored == true) { 
+        if (Marcador.instance.scored == true) {
             speed = initialSpeed;
             Marcador.instance.scored = false;
         }

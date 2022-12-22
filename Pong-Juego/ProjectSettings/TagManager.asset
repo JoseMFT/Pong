@@ -8,6 +8,8 @@ TagManager:
   - P2
   - Borders
   - Ball
+  - FxTemporaire
+  - Bola
   layers:
   - Default
   - TransparentFX
